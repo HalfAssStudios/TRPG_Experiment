@@ -1,0 +1,4 @@
+-Save out map
+-Load map
+-Have unit travese the map
+-unit stopping at target location
