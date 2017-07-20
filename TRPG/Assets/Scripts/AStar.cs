@@ -39,7 +39,7 @@ public class AStar : MonoBehaviour
 
                 Node node = nodeObj.GetComponent<Node>();
 
-                node.movementCost = Random.Range(1,4);
+                node.movementCost = Random.Range(1,2);
                 node.SetColorBasedOnCost();
 
                 node.gridPosition = new Vector2(i, j);
@@ -87,34 +87,41 @@ public class AStar : MonoBehaviour
 
         nodeGrid[gridPositionX][gridPositionY].costText.color = Color.red;
 
-        for (int i = gridPositionX - maxMovementDistance; i < gridPositionX + (maxMovementDistance  + 1); i++) //row
+
+
+        for (int i = gridPositionX - maxMovementDistance; i < gridPositionX + (maxMovementDistance + 1); i++) //row
         {
-            for (int j = gridPositionY - maxMovementDistance; j < gridPositionY + (maxMovementDistance  + 1); j++) //column
+            if (i >= 0 && i < 11)
             {
-                
-                CalculatePath(node, nodeGrid[i][j]);
-                SetPathToGoal(nodeGrid[i][j]);
-
-                float totalCost = 0;
-                foreach (Node n in pathToGoal)
+                for (int j = gridPositionY - maxMovementDistance; j < gridPositionY + (maxMovementDistance + 1); j++) //column
                 {
-                    //n.costText.color = Color.green;
-                    totalCost += n.movementCost;
-                }
+                    if (j >= 0 && j < 11)
+                    {
+                        CalculatePath(node, nodeGrid[i][j]);
+                        SetPathToGoal(nodeGrid[i][j]);
 
-                totalCost -= node.movementCost;
-                nodeGrid[i][j].costText.text = totalCost.ToString();
+                        float totalCost = 0;
+                        foreach (Node n in pathToGoal)
+                        {
+                            //n.costText.color = Color.green;
+                            totalCost += n.movementCost;
+                        }
 
-                if (totalCost > maxMovementDistance)
-                {
-                    nodeGrid[i][j].costText.color = Color.black;
-                }
-                else
-                {
-                    nodeList.Add(nodeGrid[i][j]);
-                    nodeGrid[i][j].costText.color = Color.green;
-                }
+                        totalCost -= node.movementCost;
+                        nodeGrid[i][j].costText.text = totalCost.ToString();
 
+                        if (totalCost > maxMovementDistance)
+                        {
+                            nodeGrid[i][j].costText.color = Color.black;
+                        }
+                        else
+                        {
+                            nodeList.Add(nodeGrid[i][j]);
+                            nodeGrid[i][j].costText.color = Color.green;
+                        }
+                    }
+
+                }
             }
         }
 
