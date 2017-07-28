@@ -61,7 +61,7 @@ public class LevelEditor : EditorWindow
         }
         if ((m_gridWidth > 0 || m_gridWidth <= 200) && (m_gridLength > 0 || m_gridLength <= 200))
         {
-            m_editorMessage = "Welcome To Version 3";
+            m_editorMessage = "Welcome To Version 1";
         }
 
         EditorGUILayout.Space();
@@ -140,42 +140,46 @@ public class LevelEditor : EditorWindow
 
     private void CreateTiles()
     {
+        GameObject t_parent = new GameObject("Parent Object");
+        t_parent.AddComponent<MapSaver>();
+        //GameObject t_rowParents;
         GameObject t_go;
         for (int i = 0; i < m_gridTiles.Count; i++)
         {
+            //t_rowParents = new GameObject("Row Object " + i);
+            //t_rowParents.transform.parent = t_parent.transform;
             for (int j = 0; j < m_gridTiles[i].Count; j++)
             {
                 if (m_gridTiles[i][j] == 0) //Road
                 {
                     t_go = (GameObject)PrefabUtility.InstantiatePrefab(m_Road);
-                    t_go.transform.position = new Vector3(i, 0, j);
-                    t_go.transform.rotation = m_rotation;
                 }
                 else if (m_gridTiles[i][j] == 1) //River
                 {
                     t_go = (GameObject)PrefabUtility.InstantiatePrefab(m_River);
-                    t_go.transform.position = new Vector3(i, 0, j);
-                    t_go.transform.rotation = m_rotation;
                 }
                 else if (m_gridTiles[i][j] == 2) //Forest
                 {
                     t_go = (GameObject)PrefabUtility.InstantiatePrefab(m_Forest);
-                    t_go.transform.position = new Vector3(i, 0, j);
-                    t_go.transform.rotation = m_rotation;
                 }
                 else if (m_gridTiles[i][j] == 3) //Mountain
                 {
                     t_go = (GameObject)PrefabUtility.InstantiatePrefab(m_Mountain);
-                    t_go.transform.position = new Vector3(i, 0, j);
-                    t_go.transform.rotation = m_rotation;
                 }
                 else
                 {
                     t_go = (GameObject)PrefabUtility.InstantiatePrefab(m_Road);
-                    t_go.transform.position = new Vector3(i, 0, j);
-                    t_go.transform.rotation = m_rotation;
                 }
+
+                t_go.transform.position = new Vector3(i, 0, j);
+                t_go.transform.rotation = m_rotation;
+                t_go.transform.parent = t_parent.transform;
+                //t_go.transform.parent = t_rowParents.transform;
             }
         }
+
+        t_parent.GetComponent<MapSaver>().m_gridTiles = m_gridTiles;
+        t_parent.GetComponent<MapSaver>().width = m_gridWidth;
+        t_parent.GetComponent<MapSaver>().length = m_gridLength;
     }
 }
