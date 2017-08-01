@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.IO;
+using LitJson;
 
 [System.Serializable]
 public class MapSaver : MonoBehaviour
@@ -30,7 +31,16 @@ public class MapSaver : MonoBehaviour
 
     private void WriteJsonFile()
     {
-        string mapString = JsonUtility.ToJson(this, true);
+        string mapString = JsonUtility.ToJson(this, false);
+
+        //MapContainer map = new MapContainer();
+
+        //map.width = width;
+        //map.length = length;
+        //map.array = new int[width * length];
+        //map.array = myGridTiles;
+
+        //string mapString = JsonMapper.ToJson(map);
 
         if (!string.IsNullOrEmpty(mapString))
         {

@@ -17,45 +17,31 @@ public class AStar : MonoBehaviour
 
     public List<List<Node>> nodeGrid = new List<List<Node>>();
 
-    public int[,] nodeArray = {
-
-        { 0, 0, 1, 0, 0 },
-        { 0, 1, 1, 1, 0 },
-        { 1, 1, 1, 1, 1 },
-        { 0, 1, 1, 1, 0 },
-        { 0, 0, 1, 0, 0 }
-    };
-
     public GameObject nodePrefab;
+    public bool isInitialized = false;
 
-    void Awake()
+    public void Initialize(List<Node> tileNodes, int width, int length)
     {
-        for (int i = 0; i < 11; i++) //row
+        //for (int i = 0; i < tileNodes.Count; i++)
+        //{
+        //    allNodes.Add(tileNodes[i]);
+        //    allNodes[i].InitializeNeighbors();
+        //}
+
+        for (int i = 0; i < length; i++)//column
         {
             nodeGrid.Add(new List<Node>());
-            for (int j = 0; j < 11; j++) //column
+            for (int j = 0; j < width; j++)//row
             {
-                GameObject nodeObj = GameObject.Instantiate(nodePrefab, new Vector3(i * 5, 0, j * 5), Quaternion.identity);
+                allNodes.Add(tileNodes[i * length + j]);
+                allNodes[i * length + j].InitializeNeighbors();
 
-                Node node = nodeObj.GetComponent<Node>();
+                nodeGrid[i].Add(tileNodes[i * length + j]);
+                nodeGrid[i][j].gridPosition = new Vector2(i, j);
 
-                node.movementCost = Random.Range(1,2);
-                node.SetColorBasedOnCost();
-
-                node.gridPosition = new Vector2(i, j);
-
-                allNodes.Add(node);
-                nodeGrid[i].Add(node);
             }
         }
-
-        nodeGrid[5][5].movementCost = 3;
-
-        for (int i = 0; i < allNodes.Count; i++)
-        {
-            allNodes[i].InitializeNeighbors();
-        }
-
+        isInitialized = true;
         //Node[] t_nodes = GameObject.FindObjectsOfType<Node>();
 
         //for (int i = 0; i < t_nodes.Length; i++)

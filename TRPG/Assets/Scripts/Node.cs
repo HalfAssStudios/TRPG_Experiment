@@ -68,6 +68,7 @@ public class Node : MonoBehaviour
     {
         Vector3 direction = transform.forward;
 
+        gridPosition = new Vector2(transform.position.x, transform.position.z);
         for (int i = 0; i < (int)Node_Neighbors.Total; i++)
         {
             neighborList.Add(null);

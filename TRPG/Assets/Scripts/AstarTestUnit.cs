@@ -71,6 +71,9 @@ public class AstarTestUnit : MonoBehaviour
     }
 	void Update() 
 	{
+        if (!m_aStar.isInitialized)
+            return;
+
         if (Input.GetMouseButtonDown(0))
             CheckLeftClick();
 
